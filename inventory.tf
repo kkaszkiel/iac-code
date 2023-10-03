@@ -1,3 +1,5 @@
+#ssh key for ansible
+
 resource "local_sensitive_file" "private_key" {
   content = tls_private_key.key.private_key_pem
   filename          = format("%s/%s/%s", abspath(path.root), "ansible/.ssh", "ansible-ssh-key.pem")
@@ -5,7 +7,7 @@ resource "local_sensitive_file" "private_key" {
 }
 
 
-
+#ansible inventory
 
 resource "local_file" "ansible_inventory" {
   content = templatefile("inventory.tftpl", {
@@ -14,6 +16,8 @@ resource "local_file" "ansible_inventory" {
   })
   filename = format("%s/%s", abspath(path.root), "ansible/inventory.ini")
 }
+
+#ansible config file
 
 resource "local_file" "ansible_cfg" {
   content = templatefile("ansible_cfg.tftpl", {
