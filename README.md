@@ -1,5 +1,3 @@
-
-
 ##Terraform
 
 Tasks:
@@ -11,9 +9,7 @@ Tasks:
 
 
 
-
-
-####Requirements:
+###Requirements:
 
 ```
 - Configured Authentication with AWS (aws configure)
@@ -24,11 +20,13 @@ Tasks:
 
 
 
-####How to run:
+###How to run:
 
 ```
 terraform init
 terraform apply
+
+cd ansible && ansible-playbook playbook.yaml
 
 ````
 
