@@ -1,7 +1,14 @@
 ---
-- name: Install nginx, issue a cert for domain using acme.sh and Let's Encrypt, install certificate
-  hosts: aws_ec2
+- hosts: aws_ec2
   become: yes
+ 
+  handlers:
+  - name: Reload Nginx
+    service:
+      name: nginx
+      state: reloaded
+
+
   tasks:
     
   - name: Install the latest version of Nginx
@@ -38,3 +45,39 @@
     ansible.builtin.systemd:
       state: started
       name: crond
+
+
+
+
+  - name: Apply Nginx template without SSL
+    template:
+      src: files/nginx.conf.j2
+      dest: /etc/nginx/conf.d/{{ domain_name }}.conf
+    notify: Reload Nginx
+
+  - name: Create ssl directory 
+    file:
+      path: /etc/nginx/ssl
+      state: directory
+
+  - name: Download and install acme.sh
+    shell: "curl https://get.acme.sh | sh -s email=root@{{ domain_name }}"
+
+  - name: Get SSL certificate
+    shell: "~/.acme.sh/acme.sh --issue --nginx -d {{ domain_name }}" #--server  letsencrypt"
+
+  - name: Install certificate and reload nginx
+    shell: |
+      ~/.acme.sh/acme.sh --install-cert -d {{ domain_name }} \
+      --key-file       /etc/nginx/ssl/key.pem  \
+      --fullchain-file /etc/nginx/ssl/cert.crt \
+      --reloadcmd     "service nginx force-reload"
+
+  - name: Apply Nginx template with SSL
+    template:
+      src: files/nginx-ssl.conf.j2
+      dest: /etc/nginx/conf.d/{{ domain_name }}.conf
+    notify: Reload Nginx
+
+
+    
