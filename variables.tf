@@ -24,11 +24,17 @@ variable "secret_name" {
 
 
 
-
-
 ###Cloudflare
 
 variable "domain_name" {
   type = string
   default = "kkaszkiel.pl"
+}
+
+
+#Repository with static page
+
+variable "repository_name" {
+  type = string
+  default = "https://github.com/kkaszkiel/static-website.git"
 }

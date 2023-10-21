@@ -14,10 +14,12 @@ Tasks:
  - Install nginx and cronie (crontab)
  - Create nginx config for domain_name (variables.tf)
  - Get a TLS certificate from Let’s Encrypt using acme.sh (Certificate renews automatically using a task in crontab)
+ - Deploy static website from git repository to EC2. You can define the repository name in the variables.tf file.
 
 
 
-
+#
+#
 
 ### Requirements:
 

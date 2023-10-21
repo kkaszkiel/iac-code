@@ -14,6 +14,7 @@ resource "local_file" "ansible_inventory" {
     ip_addrs = [for i in aws_instance.WebServer[*]:i.public_ip]
     ssh_keyfile = local_sensitive_file.private_key.filename
     domain_name = var.domain_name
+    repository_name = var.repository_name
   })
   filename = format("%s/%s", abspath(path.root), "ansible/inventory.ini")
 }
