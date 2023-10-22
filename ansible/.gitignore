@@ -1,4 +1,5 @@
 .ssh
 ansible.cfg
 inventory.ini
+defaults/main.yml
 

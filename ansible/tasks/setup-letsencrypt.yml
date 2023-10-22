@@ -1,0 +1,31 @@
+  - name: Create ssl directory 
+    file:
+      path: /etc/nginx/ssl
+      state: directory
+
+
+  - name: Download and install acme.sh
+    shell: "curl https://get.acme.sh | sh -s email=root@{{ domain_name }}"
+
+
+  - name: Get SSL certificate
+    shell: "~/.acme.sh/acme.sh --server letsencrypt --force --issue --nginx -d {{ domain_name }}" 
+
+
+  - name: Install certificate and reload nginx
+    shell: |
+      ~/.acme.sh/acme.sh --install-cert -d {{ domain_name }} \
+      --key-file       /etc/nginx/ssl/key.pem  \
+      --fullchain-file /etc/nginx/ssl/cert.crt \
+      --reloadcmd     "service nginx force-reload"
+
+
+  - name: Apply Nginx template with SSL
+    template:
+      src: nginx-ssl.conf.j2
+      dest: /etc/nginx/conf.d/{{ domain_name }}.conf
+    notify: Reload Nginx
+
+
+  - name: Force all notified handlers to run at this point, not waiting for normal sync points
+    ansible.builtin.meta: flush_handlers
