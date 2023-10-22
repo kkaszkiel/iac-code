@@ -1,0 +1,14 @@
+  - name: Apply Nginx template without SSL
+    template:
+        src: nginx.conf.j2
+        dest: /etc/nginx/conf.d/{{ domain_name }}.conf
+    notify: Reload Nginx
+
+  - name: Remove files and directories
+    ansible.builtin.file:
+      state: absent
+      path: /usr/share/nginx/html
+    
+
+  - name: Force all notified handlers to run at this point, not waiting for normal sync points
+    ansible.builtin.meta: flush_handlers

@@ -1,0 +1,9 @@
+  - name: Install required packages
+    ansible.builtin.dnf:
+      name:
+        - git
+        - nginx
+        - cronie
+      state: present 
+    notify: Start and enable services
+    register: installsoftware

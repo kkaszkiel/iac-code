@@ -1,0 +1,16 @@
+---
+# tasks file for ansible
+- name: install packages
+  include_tasks: install-packages.yml
+  register: installsoftware
+
+- name: setup nginx
+  include_tasks: setup-nginx.yml
+  when: installsoftware.changed
+
+- name: setup-letsencrypt
+  include_tasks: setup-letsencrypt.yml
+  when: installsoftware.changed
+
+- name: deploy-page
+  include_tasks: deploy-page.yml

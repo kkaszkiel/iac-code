@@ -1,0 +1,6 @@
+  - name: Clone repository
+    ansible.builtin.git:
+      repo: "{{ repository_name }}"
+      dest: /usr/share/nginx/html
+      clone: yes
+      update: yes

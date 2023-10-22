@@ -1,0 +1,15 @@
+---
+# handlers file for ansible
+  - name: Reload Nginx
+    service:
+      name: nginx
+      state: reloaded
+
+  - name: Start and enable services
+    systemd:
+      name: '{{ item }}'
+      state: started 
+      enabled: yes 
+    with_items:
+      - nginx
+      - crond

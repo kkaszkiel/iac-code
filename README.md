@@ -8,6 +8,7 @@ Tasks:
  - Create inventory.ini file for Ansible
 
 
+
 ## Ansible
 
 Tasks:
@@ -18,15 +19,12 @@ Tasks:
 
 
 
-#
-#
-
 ### Requirements:
 
 ```
 - Configured Authentication with AWS (aws configure)
 - Terraform 0.13 and later
-- Cloudflare API token stored in AWS Secret Manager
+- Cloudflare API token stored in AWS Secret Manager (Secret key = CF_API_TOKEN)
 - Ansible 2.9 and later
 - Define your variables, e.g. ec2 instance type, domain name... in variables.tf
 ```
@@ -41,7 +39,11 @@ terraform apply
 
 cd ansible && ansible-playbook playbook.yaml
 
-````
+```
 
 
 
+### Notice:
+
+When you run the Ansible playbook for the first time, all tasks are executed.
+The second time you run it, **only the deploy-page task will run.** (You can use Ansible later just to deploy new versions of the site)
