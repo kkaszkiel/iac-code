@@ -46,4 +46,5 @@ cd ansible && ansible-playbook playbook.yaml
 ### Notice:
 
 When you run the Ansible playbook for the first time, all tasks are executed.
+
 The second time you run it, **only the deploy-page task will run.** (You can use Ansible later just to deploy new versions of the site)
